@@ -126,7 +126,7 @@ void initOperConstants() {
 
 	complex<double> J = complex<double>(0, 1);
 	double Hcoeff = 1 / sqrt(2.0);
-	complex<double> Tcoeff = exp(J*(M_PI / 4.0));
+	complex<double> Tcoeff = exp(J*(datum::pi / 4.0));
 
 	// 2x2 identity matrix
 	Oper locI2 = get_identity(2);

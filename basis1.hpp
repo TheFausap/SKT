@@ -227,7 +227,7 @@ Basis get_unitary_basis(int d) {
 	range_d = utils::range(0, d);
 	v = get_standard_vector_basis(d);
 
-	complex<double> zeta = exp(complex<double>(0, 2) * complex<double>(M_PI, 0) / complex<double>(d, 0));
+	complex<double> zeta = exp(complex<double>(0, 2) * complex<double>(datum::pi, 0) / complex<double>(d, 0));
 
 #ifdef _DEBUG
 	cout << "zeta= " << zeta << endl;
