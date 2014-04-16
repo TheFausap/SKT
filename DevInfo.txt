@@ -1,0 +1,94 @@
+						====
+				         = DATA STRUCTURES =
+						====
+
+tOper = class Oper
+
+class Oper {
+public:
+	cx_mat matrix;
+	string name;
+	string ancestors;
+
+	Oper (string,cx_mat,string);
+	Oper (string,string);
+	Oper (string,cx_mat);
+	Oper ();
+	void print_matrix() { cout << "Matrix: " << matrix << endl; }
+	void print() { cout << "Operator: " << name << endl << "  Ancestors: " << ancestors << endl; }
+	Oper add_ancestor(Oper, string);
+	void matrix_from_ancestors(Oper[], Oper, float);
+	Oper multiply(Oper,string);
+	Oper dagger();
+	Oper scale(int,string);
+	Oper scale(int);
+	bool operator==(const Oper&);
+};
+
+tArrayOp = standard vector of tOper
+
+ruleSet = standard deque of a pointers to class SimplifyRule
+
+SimplifyRule is a superclass instantiated using a <<factory>> in order to have several "simplify" method depending on the specific simplification rule.
+
+class ProductFactory
+{
+public:
+	virtual SimplifyRule *Make(int type, tArrayOp OP)
+	{
+		switch (type)
+		{
+		case 0:
+			return new IdentityRule(0);
+		case 1:
+			return new DoubleIdentityRule(OP.front());
+		case 2:
+			return new AdjointRule(0);
+		case 3:
+			return new GeneralRule(OP);
+		default:
+			return new IdentityRule(0);
+		};
+	};
+};
+
+The simplify method returns a tSimplified, a standard pair :
+
+typedef std::pair<size_t, tArrayOp> tSimplified;
+
+To mimic the python dictionaries, there are standard maps. They are used to create the "basis", for the unitary matrix spaces (unitaryBasis) and general hermitian spaces (elemBasis).
+
+typedef std::map<basIdx, basOper> elemBasis;  
+typedef std::map<dims, basOper> unitaryBasis;
+
+This is a typical setup of operations :
+
+	ruleSet rSet;
+	Basis H2;
+
+	initOperConstants();						            (1)
+
+	tArrayOp iset2 = { H, T, T_inv };                                           (2)
+	tArrayOp t8 = { T, T, T, T, T, T, T, T };
+	tArrayOp Td8 = { T_inv, T_inv, T_inv, T_inv, T_inv, T_inv, T_inv, T_inv };
+
+	// Simplifying rules                                                        (3)
+	ProductFactory pRule;
+	SimplifyRule *identity_rule = pRule.Make(0, {});
+	SimplifyRule *double_H_rule = pRule.Make(1, { H });
+	SimplifyRule *adjoint_rule = pRule.Make(2, {});
+	SimplifyRule *T8_rule = pRule.Make(3, t8);
+	SimplifyRule *Td8_rule = pRule.Make(3, Td8);
+
+	rSet = { identity_rule, double_H_rule, adjoint_rule,                        (4) 
+			T8_rule, Td8_rule };
+
+	SimplifyEngine sse(rSet);                                                   (5)
+
+this creates : 
+
+1) several operators used as constants ( initOperConstants() );
+2) some sets of operators;
+3) pointers to the available simplification rules;
+4) a set of rules;
+5) an engine using the rules defined at (4).
