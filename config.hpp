@@ -7,4 +7,7 @@
 #include "approx.hpp"
 #include "simplify.hpp"
 
+int global_count;
+int global_length;
+
 #endif // config_h__

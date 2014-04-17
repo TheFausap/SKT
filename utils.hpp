@@ -2,7 +2,7 @@
 #define utils_h__
 
 #include <iostream>
-#include <complex>
+#include <ctgmath>
 #include <armadillo>
 #include <assert.h>
 #include <algorithm>
@@ -122,6 +122,12 @@ namespace utils {
 		return(new_name);
 	};
 
+	string list_as_string(tArrayOp t1) {
+		string ll;
+		if (t1.size() == 0) return("");
+		for (auto ii : t1) ll += ii.name;
+		return(ll);
+	};
 
 }; // end of namespace utils
 #endif // utils_h__

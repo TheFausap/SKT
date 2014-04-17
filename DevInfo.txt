@@ -92,3 +92,7 @@ this creates :
 3) pointers to the available simplification rules;
 4) a set of rules;
 5) an engine using the rules defined at (4).
+
+tIsetDict = standard map (dictionary) of operators indicized by operator.name
+
+typedef std::map<std::string, tOper> tIsetDict; 

@@ -7,7 +7,6 @@
 void main() {
 
 	ruleSet rSet;
-	//tArrayOp iset2 = { "H","T","T_inv" };
 
 	Basis H2;
 
@@ -26,16 +25,15 @@ void main() {
 	SimplifyRule *Td8_rule = pRule.Make(3, Td8);
 
 	rSet = { identity_rule, double_H_rule, adjoint_rule, T8_rule, Td8_rule };
-	
-	//Td8_rule->print();
-	
-	//H2 = get_hermitian_basis(2);
 
-	//T_inv.print();
-	//T_inv.print_matrix();
+	BasicApproxSettings settings;
 
-	SimplifyEngine sse(rSet);
-	tSimplified pp = sse.simplify(t8);
-	cout << pp.first << endl;
+	settings.set_iset(iset2);
+	settings.init_simplify_engine(rSet);
+	settings.set_identity(I2);
+	//settings.basis = H2;
+
+	//tSimplified pp = sse.simplify(t8);
+	//cout << pp.first << endl;
 
 };

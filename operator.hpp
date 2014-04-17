@@ -13,8 +13,8 @@ using namespace std;
 class Oper {
 public:
 	cx_mat matrix;
-	string name;
-	string ancestors;
+	std::string name;
+	std::string ancestors;
 
 	Oper (string,cx_mat,string);
 	Oper (string,string);
@@ -36,6 +36,7 @@ typedef Oper tOper;
 tOper T, I2, H, SZ, SY, SX, T_inv;
 cx_mat H_matrix(2, 2), SX_matrix(2, 2), SY_matrix(2, 2), SZ_matrix(2, 2);
 cx_mat T_matrix;
+tArrayOp baseOpSet = { I2, T, H, SZ, SY, SX, T_inv };
 
 Oper::Oper (string n, cx_mat a, string anc) {
 	name = n;
